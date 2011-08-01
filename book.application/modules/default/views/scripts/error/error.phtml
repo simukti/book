@@ -1,0 +1,15 @@
+<div class="grid_12 book_message left radius_10 clearfix">
+    <div style="padding: 5px 10px; margin-bottom: 20px; float: left;">
+        <h3>Wooii, ERROR jehh...!!!</h3>
+        <span style="font-weight: bold;">Iki judul error-e &raquo;</span>
+        <h3><?php echo $this->message ?></h3>
+        <?php if (isset($this->exception)): ?>
+            <span style="font-weight: bold;">Iki pesene &raquo;</span> 
+            <?php echo $this->exception->getMessage(); ?> <br />
+            <span style="font-weight: bold;">Iki parameter-e &raquo;</span> 
+            <pre><?php echo var_export($this->request->getParams(), true); ?></pre>
+            <span style="font-weight: bold;">Iki urutan mlakune script-e &raquo;</span>
+            <pre><?php echo $this->exception->getTraceAsString(); ?></pre>
+        <?php endif ?>
+     </div>
+</div>

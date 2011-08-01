@@ -1,0 +1,55 @@
+# set gzip transfer if possible
+# http://developer.yahoo.com/blogs/ydn/posts/2010/12/pushing-beyond-gzipping/
+<IfModule mod_headers.c>
+    BrowserMatchNoCase (MSIE|Firefox|Chrome|Safari|Opera) HAVE_Accept-Encoding
+    SetEnvIfNoCase ^(Accept-EncodXng|X-cept-Encoding|X{15}|~{15}|-{15})$ ^((gzip|deflate)\s,?\s(gzip|deflate)?|X{4,13}|~{4,13}|-{4,13})$ HAVE_Accept-Encoding
+</IfModule>
+
+# I set browser caching for all common contents
+# file png
+<FilesMatch "\.(png)$">
+    <IfModule mod_headers.c>
+        Header set Content-type "image/png"
+        Header set Cache-Control "max-age=29030400, private, proxy-revalidate"
+    </IfModule>
+</FilesMatch>
+# file jpg
+<FilesMatch "\.(jpg|jpeg|jpe)$">
+    <IfModule mod_headers.c>
+        Header set Content-type "image/jpeg"
+        Header set Cache-Control "max-age=29030400, private, proxy-revalidate"
+    </IfModule>
+</FilesMatch>
+# file gif
+<FilesMatch "\.(gif)$">
+    <IfModule mod_headers.c>
+        Header set Content-type "image/gif"
+        Header set Cache-Control "max-age=29030400, private, proxy-revalidate"
+    </IfModule>
+</FilesMatch>
+# file css
+<FilesMatch "\.(css)$">
+    <IfModule mod_headers.c>
+        Header set Content-type "text/css"
+        Header set Cache-Control "max-age=29030400, private, proxy-revalidate"
+    </IfModule>
+</FilesMatch>
+# file javascript
+<FilesMatch "\.(js)$">
+    <IfModule mod_headers.c>
+        Header set Content-type "text/javascript"
+        Header set Cache-Control "max-age=29030400, private, proxy-revalidate"
+    </IfModule>
+</FilesMatch>
+# file ico favicon
+<FilesMatch "\.(ico)$">
+    <IfModule mod_headers.c>
+        Header set Content-type "image/x-icon"
+        Header set Cache-Control "max-age=29030400, private, proxy-revalidate"
+    </IfModule>
+</FilesMatch>
+
+# Now I set rewriting for application
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule !\.(ico|js|jpg|css)$ index.php

@@ -1,0 +1,98 @@
+<?php echo $this->doctype(); ?>
+<html lang="id" xml:lang="id">
+    <head>
+        <?php $user = (! Core_Service_Proxy::get('User_Service_User')->isGuest()) ? '(' . Core_Service_Proxy::get('User_Service_User')->getCurrentUser()->fullname . ')' : null; ?>
+        <?php $this->headTitle(Core_Version::getAppName() . ' v' . Core_Version::getVersion() . " {$user}")->setSeparator(' - '); ?>
+        <?php $this->headLink()->prependStylesheet('/assets/css/book.css'); ?>
+        <?php $this->headLink()->prependStylesheet('/assets/css/960.css'); ?>
+        <?php $this->headLink(array('rel' => 'shortcut icon',
+                                  'href' => '/assets/img/favicon.ico',
+                                  'type' => 'image/x-icon'),
+                                  'PREPEND'); ?>
+        <?php echo $this->headMeta(); ?>
+        <?php echo $this->headTitle(); ?>
+        <?php echo $this->headLink(); ?>
+        <?php echo $this->headScript(); ?>
+    </head>
+    <body>
+        <div id="upper" class="header clearfix">
+            <div class="container_12">
+                <div class="grid_4 left">
+                    <h1>
+                        <a href="<?php echo $this->url(array(), 'frontpage');?>"><?php echo Core_Version::getAppName() . ' v' . Core_Version::getVersion(); ?></a>
+                    </h1>
+                </div>
+                <div class="grid_6 right">
+                    <ul class="top_menu">
+                        <?php if (Zend_Auth::getInstance()->hasIdentity()) :?>
+                        <li>
+                            <a href="<?php echo $this->url(array(), 'book-admin'); ?>"><?php echo Core_Service_Proxy::get('User_Service_User')->getCurrentUser()->fullname; ?></a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $this->url(array(), 'logout'); ?>">Logout</a>
+                        </li>
+                        <?php else : ?>
+                        <li>
+                            <a href="<?php echo $this->url(array(), 'login'); ?>">Login</a>
+                        </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="middle" class="content clearfix">
+            <div class="container_12 radius_10">
+                <?php echo $this->layout()->content; ?>
+            </div>
+        </div>
+        <div id="lower" class="footer clearfix">
+            <div class="container_12">
+                <div class="grid_3">
+                    <h3>Categories</h3>
+                    <?php $categories = Core_Service_Proxy::get('Book_Service_Book')->getAllCategory(true); ?>
+                    <ul>
+                        <?php foreach ($categories as $category):?>
+                        <li><a href="<?php echo $this->url(array('id_category' => $category->id_category), 'book-category'); ?>"><?php echo $category->category_name; ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <div class="grid_3">
+                    <h3>Publisher</h3>
+                    <?php $publishers = Core_Service_Proxy::get('Book_Service_Book')->getAllPublisher(true); ?>
+                    <ul>
+                        <?php foreach ($publishers as $publisher):?>
+                        <li><a href="<?php echo $this->url(array('id_publisher' => $publisher->id_publisher), 'book-publisher'); ?>"><?php echo $publisher->publisher_name; ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <div class="grid_3">
+                    <h3>Author</h3>
+                    <?php $authors = Core_Service_Proxy::get('Book_Service_Book')->getAllAuthor(true); ?>
+                    <ul>
+                        <?php foreach ($authors as $author):?>
+                        <li><a href="<?php echo $this->url(array('id_author' => $author->id_author), 'book-author'); ?>"><?php echo $author->author_name; ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <div class="grid_3">
+                    <h3>About This Site</h3>
+                    <p>
+                        *) [<a href="<?php echo $this->url(array(), 'frontpage');?>"><?php echo Core_Version::getAppName() . ' v' . Core_Version::getVersion(); ?></a>] 
+                        adalah contoh aplikasi simpel yang 
+                        dibangun menggunakan <a href="http://framework.zend.com/">Zend Framework <?php echo Zend_Version::VERSION; ?></a> + 
+                        <a href="http://www.doctrine-project.org/">Doctrine <?php echo Doctrine::VERSION; ?></a>, 
+                        dan saya pergunakan untuk menampilkan koleksi buku dan review-nya.
+                        Untuk mengetahui lisensi konten, full source code, dan komponen-komponen yang saya pergunakan dalam membangun aplikasi ini, 
+                        silahkan klik: <a href="/behind-the-scene">behind-the-scene</a>.
+                    </p>
+                </div>
+                <div class="grid_12">
+                    <div class="copyright">
+                        <p class="left">Copyright &copy; 2011 - <a href="http://simukti.net/">Sarjono Mukti Aji</a></p>
+                        <p class="right"><a href="http://minilib.simukti.net/">minilib.simukti.net</a> adalah bagian dari <a href="http://simukti.net/">simukti.net</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

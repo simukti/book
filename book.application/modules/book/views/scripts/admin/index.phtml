@@ -1,0 +1,30 @@
+<div class="grid_3 home_panel radius_10 left">
+    <?php echo $this->render('admin/_menu.phtml'); ?>
+</div>
+<div class="grid_9 book_detail radius_10 right">
+    <h1>
+        Latest Reviews
+    </h1>
+    <div class="book_detail_content">
+    <?php foreach ($this->reviews as $review):?>
+        <h3 class="radius_5">
+            <a href="<?php echo $this->url(array('id_book' => $review->id_book), 'book-view'); ?>"><?php echo $review->book_title; ?></a>
+        </h3>
+        <ul>
+            <li class="radius_10">
+                <div class="gravatar left">
+                    <?php echo $this->gravatar($review->email, array('img_size' => 48), array('alt' => 'reviewer\'s gravatar', 'class' => 'radius_5')); ?>
+                </div>
+                <p>
+                    <span><?php echo $review->name; ?> - <?php echo new Zend_Date(); ?></span> <br>
+                    <?php echo $review->review_content; ?>
+                    <?php if (Core_Service_Proxy::get('Book_Service_Review')->checkAcl('delete')) : ?>
+                    <br />
+                    <a href="#">Delete This Review</a>
+                    <?php endif; ?>
+                </p>
+            </li>
+        </ul>
+        <?php endforeach; ?>
+    </div>
+</div>

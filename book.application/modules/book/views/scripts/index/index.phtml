@@ -1,0 +1,42 @@
+<?php if ($this->books):?>
+
+<?php if ($this->message) : ?>
+<div class="grid_12 book_message left radius_10">
+    <h3>Display Filter: <?php echo $this->escape($this->message); ?></h3>
+</div>
+<?php endif; ?>
+
+<?php if (count($this->books) === 0): ?>
+<div class="grid_12 clearfix book_message left radius_10">
+    <h3>No books to display.</h3>
+</div>
+<?php endif; ?>
+
+<?php foreach ($this->books as $book):?>
+<div class="grid_4 book_list left radius_10">
+    <ul>
+        <li>
+            <span>Title: </span> <br />
+            <a href="<?php echo $this->url(array('id_book' => $book->id_book), 'book-view'); ?>"><?php echo $book->book_title; ?></a>
+        </li>
+        <li>
+            <span>Category: </span> <br />
+            <a href="<?php echo $this->url(array('id_category' => $book->id_category), 'book-category'); ?>"><?php echo $book->category_name; ?></a>
+        </li>
+        <li>
+            <span>Author: </span> <br />
+            <a href="<?php echo $this->url(array('id_author' => $book->id_author), 'book-author'); ?>"><?php echo $book->author_name; ?></a>
+        </li>
+        <li>
+            <span>Publisher: </span> <br />
+            <a href="<?php echo $this->url(array('id_publisher' => $book->id_publisher), 'book-publisher'); ?>"><?php echo $book->publisher_name; ?></a>
+        </li>
+        <li>
+            <span>Year Published: </span> <br />
+            <?php echo $book->year_published; ?>
+        </li>
+    </ul>
+</div>
+<?php endforeach; ?>
+
+<?php endif; ?>

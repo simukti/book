@@ -1,0 +1,136 @@
+<div class="grid_12">
+    <div class="full_page radius_10">
+        <h2>Behind The Scene (<?php echo Core_Version::getAppName() . ' v' . Core_Version::getVersion(); ?>)</h2>
+        <p>
+            Sebelumnya, terima kasih sudah mengunjungi aplikasi simpel ini. 
+            Aplikasi yang anda lihat ini adalah contoh yang saya buat 
+            menggunakan Zend Framework <?php echo Zend_Version::VERSION; ?><sup>1</sup>
+            dan Doctrine <?php echo Doctrine_Core::VERSION; ?><sup>2</sup>. 
+            Dalam aplikasi ini saya menggunakan konsep MVC<sup>3</sup>, Service Layer<sup>4</sup>, 
+            Modular Structure<sup>5</sup>, ORM<sup>6</sup>, Caching<sup>7</sup>. Berikut ini adalah komponen-komponen 
+            yang digunakan : 
+        </p>
+        
+        <ul>
+            <li>
+                Zend_Controller
+                <p>
+                    Zend_Controller adalah komponen yang memegang otoritas untuk menerima, 
+                    menjalurkan permintaan HTTP dari pengguna. Ini adalah jantung dari aplikasi MVC 
+                    di Zend Framework. Semua request akan masuk melalui "satu pintu", yaitu Zend_Controller_Front. 
+                    Penjaluran request juga dipegang oleh Zend_Controller_Router_* untuk semua URL yang diketikkan di 
+                    address bar dan parameter yang digunakan.
+                </p>
+            </li>
+            <li>
+                Zend_View + Zend Layout
+                <p>
+                    Zend_View dan Zend_Layout adalah V (view) dari aplikasi MVC ini. 
+                    Semua hasil respon oleh aplikasi akan ditampilkan oleh komponen 
+                    ini. Dari Layout atau View ini juga bisa langsung mengakses data 
+                    dari Model melalui Service tanpa harus diperintahkan oleh Controller. 
+                    Zend_View_Helper_Gravatar juga digunakan untuk mengambil gambar 
+                    pengguna dari gravatar.com sesuai dengan email yang diinputkan 
+                    pada textbox email ada form review.
+                </p>
+            </li>
+            <li>
+                Zend_Form
+                <p>
+                    Zend_Form adalah komponen inti untuk input data dari pengguna. 
+                    Komponen ini terintegrasi dengan Zend_Validate_* dan Zend_Filter_*,
+                    juga secara default meng-escape karakter yang diinputkan.
+                </p>
+            </li>
+            <li>
+                Zend_Cache
+                <p>
+                    Zend_Cache digunakan untuk men-cache-kan hasil query pada buku. 
+                    Sistem cache ini juga diterapkan pada model master (Publisher, 
+                    Author, Category) yang diakses pada Zend_Layout untuk 
+                    menampilkan data pada halaman bagian bawah aplikasi ini.
+                </p>
+            </li>
+            <li>
+                Zend_Service_Recaptcha
+                <p>
+                    Zend_Service_Recaptcha digunakan untuk validasi form review (Zend_Form). 
+                    Service ini mengakses langsung pada server google untuk 
+                    mendapatkan kode validasi, dan harus diinputkan dengan benar 
+                    sebelum men-submit review.
+                </p>
+            </li>
+            <li>
+                Zend_Auth
+                <p>
+                    Zend_Auth mempunyai tanggung jawab untuk mengotentikasi 
+                    pengguna level admin untuk mengadministrasi data buku.
+                    Otentikasi ini mengakses class User_Service_Auth yang 
+                    mengimplementasikan Zend_Auth_Adapter_Interface.
+                </p>
+            </li>
+            <li>
+                Zend_Acl
+                <p>
+                    ACL (Access Control List) ini dipegang oleh Zend_Acl 
+                    yang diintegrasikan dengan modul User (Zend_Auth).
+                    Semua hak akses pada service didefinisikan pada fungsi _setAcl() 
+                    yang mengambil model ACl pada class Model_Acl.
+                </p>
+            </li>
+            <li>
+                Doctrine ORM
+                <p>
+                    Doctrine <?php echo Doctrine_Core::VERSION; ?> digunakan 
+                    untuk semua akses data dari/ke database. Disini saya menggunakan 
+                    MySQL dengan InnoDB. Doctrine ini juga memegang tanggung jawab atas relasi 
+                    tabel (One-to-Many | One-to-One) melalui Doctrine_Relation + ArrayAccess  
+                    yang otomatis mendeteksi relasi data di tabel sesuai dengan 
+                    definisi yang ada di model.
+                </p>
+            </li>
+            <li>
+                960gs
+                <p>
+                    Css framework ini saya gunakan untuk kerangka dasar tampilan (UI).
+                    Semua berbasis gridbox untuk menjaga konsistensi tampilan.
+                </p>
+            </li>
+        </ul>
+        <p>
+            Komponen-komponen tersebut saya gabung dan ditulis menggunakan Netbeans 7.0, 
+            dan semua tampilan adalah murni olah CSS tanpa ada grafik kecuali gravatar user, 
+            dan favicon dan background (#upper + #lower) yang anda lihat di address bar :) 
+            Aplikasi ini juga menganut Service Oriented Architecture yang mengakses Service untuk 
+            mengakses data dari/ke database, juga untuk penerapan Caching dan ACL yang ada didalamnya.
+            Meskipun aplikasi ini adalah aplikasi skala kecil, tapi konsep modular 
+            yang diterapkan bisa anda kembangkan menjadi aplikasi skala besar (silahkan dimodifikasi sesuai kebutuhan). 
+            Semua kode yang ada dibelakang aplikasi ini saya bagikan gratis di 
+            <a href="https://github.com/simukti/book">repositori github saya</a>, 
+            jika anda tertarik silahkan di-fork / di-download dan dipergunakan / dimodifikasi sebagaimana 
+            mestinya sesuai dengan LICENSE yang saya sertakan. Semoga kode aplikasi 
+            ini bisa menjadi referensi bagi yang membaca maupun bagi yang memulai 
+            untuk belajar membangun aplikasi modern berbasis Zend Framework 1.11.x (+ Doctrine 1.2.x). 
+            Semua dokumentasi tertulis pada docblock method di setiap class, 
+            jika anda mempunyai opini / saran tentang aplikasi simpel ini, 
+            silahkan dikirimkan ke: <a href="mailto:simukti@facebook.com?subject=Feedback for book.simukti.net">
+            simukti@facebook.com</a>.<br /><br />
+            Salam,
+            <br />
+            <br />
+            Sarjono Mukti Aji<br />
+            <a href="http://simukti.net">siMukti.NET</a><br />
+            &copy; 2011
+        </p>
+        <p class="footnote">
+            Referensi: <br />
+            1. <a href="http://framework.zend.com/manual/en/reference.html">Zend Framework <?php echo Zend_Version::VERSION; ?> Documentation</a><br />
+            2. <a href="http://www.doctrine-project.org/projects/orm/1.2/docs/manual/en">Doctrine <?php echo Doctrine_Core::VERSION; ?> Documentation</a><br />
+            3. <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">Model-View-Controller</a> <br />
+            4. <a href="http://martinfowler.com/eaaCatalog/serviceLayer.html">PoEAA (Service Layer)</a> <br />
+            5. <a href="http://framework.zend.com/manual/en/zend.controller.modular.html">Zend Framework Modular Structure</a> <br />
+            6. <a href="http://www.doctrine-project.org/projects/orm/1.2/docs/manual/introduction/en#what-is-an-orm?">What is an ORM ?</a> <br />
+            7. <a href="http://framework.zend.com/manual/en/zend.cache.introduction.html">Zend_Cache Introduction</a> <br />
+        </p>
+    </div>
+</div>

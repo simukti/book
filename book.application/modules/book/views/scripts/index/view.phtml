@@ -1,0 +1,65 @@
+<?php $this->headTitle($this->book->book_title); ?>
+<div class="grid_3 book_list radius_10 left">
+    <ul>
+        <div class="book_cover">
+            <img src="<?php echo $this->book->cover_filepath; ?>" alt="<?php echo $this->book->book_title; ?>" />
+        </div>
+        <li>
+            <span>Author: </span> <br />
+            <a href="<?php echo $this->url(array('id_author' => $this->book->id_author), 'book-author'); ?>"><?php echo $this->book->author_name; ?></a>
+        </li>
+        <li>
+            <span>Category: </span> <br />
+            <a href="<?php echo $this->url(array('id_category' => $this->book->id_category), 'book-category'); ?>"><?php echo $this->book->category_name; ?></a>
+        </li>
+        <li>
+            <span>Publisher: </span> <br />
+            <a href="<?php echo $this->url(array('id_publisher' => $this->book->id_publisher), 'book-publisher'); ?>"><?php echo $this->book->publisher_name; ?></a>
+        </li>
+        <li>
+            <span>Year Published: </span> <br />
+            <?php echo $this->book->year_published; ?>
+        </li>
+        <li>
+            <span>ISBN: </span> <br />
+            <?php echo (null !== $this->book->isbn) ? $this->book->isbn : 'N/A'; ?>
+        </li>
+        <?php if (Core_Service_Proxy::get('Book_Service_Book')->checkAcl('manage')) : ?>
+        <li>
+            <span>Manage: </span> <br />
+            <a href="<?php echo $this->url(array('id_book' => $this->book->id_book), 'book-update'); ?>">Edit This Book</a>
+        </li>
+        <?php endif; ?>
+    </ul>
+</div>
+<div class="grid_9 book_detail radius_10 right">
+    <h1>
+        <?php echo $this->book->book_title; ?>
+    </h1>
+    <div class="book_detail_content">
+        <p><?php echo $this->book->book_abstract; ?></p>
+        <h3 class="radius_5">Review(s)</h3>
+        <?php if ($this->book->Reviews): ?>
+        <ul>
+        <?php foreach ($this->book->Reviews as $review) : ?>
+            <li class="radius_10">
+                <div class="gravatar left">
+                    <?php echo $this->gravatar('simukti@live.com', array('img_size' => 48), array('alt' => 'reviewer\'s gravatar', 'class' => 'radius_5')); ?>
+                </div>
+                <p>
+                    <span>Sarjono Mukti Aji - <?php echo new Zend_Date(); ?></span> <br>
+                    <?php echo $review->review_content; ?>
+                    <?php if (Core_Service_Proxy::get('Book_Service_Review')->checkAcl('delete')) : ?>
+                    <br />
+                    <a href="#">Delete This Review</a>
+                    <?php endif; ?>
+                </p>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+        <?php endif;?>
+        
+        <h4>Review Form</h4>
+        <?php echo $this->review_form; ?>
+    </div>
+</div>
