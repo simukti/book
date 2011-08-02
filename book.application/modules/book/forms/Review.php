@@ -72,4 +72,29 @@ class Book_Form_Review extends Core_Form_BaseForm
             )
         ));
     }
+    
+    /**
+     * This will set name and email as a hidden field for logged-in user
+     * 
+     * @param User_Model_Auth $user Logged-in user's detail
+     * @return Book_Form_Review 
+     */
+    public function injectUser(User_Model_Auth $user)
+    {
+        /* Remove default form elements */
+        $this->removeElement('name');
+        $this->removeElement('email');
+        $this->removeElement('captcha');
+        
+        /* Set custom values for name and email */
+        $this->getElement('review_content')
+             ->setLabel('Your Review (as ' . $user->fullname . ')');
+        $this->addElement('hidden', 'name', array(
+            'value' => $user->fullname
+        ));
+        $this->addElement('hidden', 'email', array(
+            'value' => $user->email
+        ));
+        return $this;
+    }
 }

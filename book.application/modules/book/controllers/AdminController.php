@@ -26,7 +26,7 @@ class Book_AdminController extends Core_Controller_Action
      */
     public function init()
     {
-        if (Core_Service_Proxy::get('User_Service_User')->isGuest()) {
+        if ($this->getService('User_Service_User')->isGuest()) {
             $this->gotoRouteAndExit(array(), 'login');
         }
         

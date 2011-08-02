@@ -118,13 +118,11 @@ class Book_IndexController extends Core_Controller_Action
             $this->render('404');
         }
         
-        $form = Core_Service_Proxy::get('Book_Service_Review')->getForm();
+        $form = $this->getService('Book_Service_Review')->getForm();
         $user = $this->getService('User_Service_User');
-        /* remove reCaptcha element and set value for logged-in user */
+        /* inject hidden element's value for logged-in user */
         if (! $user->isGuest()) {
-            $form->removeElement('captcha');
-            $form->getElement('name')->setValue($user->getCurrentUser()->fullname);
-            $form->getElement('email')->setValue($user->getCurrentUser()->email);
+            $form->injectUser($user->getCurrentUser());
         }
         $this->view->book = $book;
         $this->view->review_form = $form;

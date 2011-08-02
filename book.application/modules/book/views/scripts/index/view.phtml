@@ -24,7 +24,7 @@
             <span>ISBN: </span> <br />
             <?php echo (null !== $this->book->isbn) ? $this->book->isbn : 'N/A'; ?>
         </li>
-        <?php if (Core_Service_Proxy::get('Book_Service_Book')->checkAcl('manage')) : ?>
+        <?php if ($this->getService('Book_Service_Book')->checkAcl('manage')) : ?>
         <li>
             <span>Manage: </span> <br />
             <a href="<?php echo $this->url(array('id_book' => $this->book->id_book), 'book-update'); ?>">Edit This Book</a>
@@ -49,7 +49,7 @@
                 <p>
                     <span>Sarjono Mukti Aji - <?php echo new Zend_Date(); ?></span> <br>
                     <?php echo $review->review_content; ?>
-                    <?php if (Core_Service_Proxy::get('Book_Service_Review')->checkAcl('delete')) : ?>
+                    <?php if ($this->getService('Book_Service_Review')->checkAcl('delete')) : ?>
                     <br />
                     <a href="#">Delete This Review</a>
                     <?php endif; ?>

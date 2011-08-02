@@ -1,7 +1,7 @@
 <?php echo $this->doctype(); ?>
 <html lang="id" xml:lang="id">
     <head>
-        <?php $user = (! Core_Service_Proxy::get('User_Service_User')->isGuest()) ? '(' . Core_Service_Proxy::get('User_Service_User')->getCurrentUser()->fullname . ')' : null; ?>
+        <?php $user = (! $this->getService('User_Service_User')->isGuest()) ? '(' . $this->getService('User_Service_User')->getCurrentUser()->fullname . ')' : null; ?>
         <?php $this->headTitle(Core_Version::getAppName() . ' v' . Core_Version::getVersion() . " {$user}")->setSeparator(' - '); ?>
         <?php $this->headLink()->prependStylesheet('/assets/css/book.css'); ?>
         <?php $this->headLink()->prependStylesheet('/assets/css/960.css'); ?>
@@ -26,7 +26,7 @@
                     <ul class="top_menu">
                         <?php if (Zend_Auth::getInstance()->hasIdentity()) :?>
                         <li>
-                            <a href="<?php echo $this->url(array(), 'book-admin'); ?>"><?php echo Core_Service_Proxy::get('User_Service_User')->getCurrentUser()->fullname; ?></a>
+                            <a href="<?php echo $this->url(array(), 'book-admin'); ?>"><?php echo $this->getService('User_Service_User')->getCurrentUser()->fullname; ?></a>
                         </li>
                         <li>
                             <a href="<?php echo $this->url(array(), 'logout'); ?>">Logout</a>
@@ -49,7 +49,7 @@
             <div class="container_12">
                 <div class="grid_3">
                     <h3>Categories</h3>
-                    <?php $categories = Core_Service_Proxy::get('Book_Service_Book')->getAllCategory(true); ?>
+                    <?php $categories = $this->getService('Book_Service_Book')->getAllCategory(true); ?>
                     <ul>
                         <?php foreach ($categories as $category):?>
                         <li><a href="<?php echo $this->url(array('id_category' => $category->id_category), 'book-category'); ?>"><?php echo $category->category_name; ?></a></li>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="grid_3">
                     <h3>Publisher</h3>
-                    <?php $publishers = Core_Service_Proxy::get('Book_Service_Book')->getAllPublisher(true); ?>
+                    <?php $publishers = $this->getService('Book_Service_Book')->getAllPublisher(true); ?>
                     <ul>
                         <?php foreach ($publishers as $publisher):?>
                         <li><a href="<?php echo $this->url(array('id_publisher' => $publisher->id_publisher), 'book-publisher'); ?>"><?php echo $publisher->publisher_name; ?></a></li>
@@ -67,7 +67,7 @@
                 </div>
                 <div class="grid_3">
                     <h3>Author</h3>
-                    <?php $authors = Core_Service_Proxy::get('Book_Service_Book')->getAllAuthor(true); ?>
+                    <?php $authors = $this->getService('Book_Service_Book')->getAllAuthor(true); ?>
                     <ul>
                         <?php foreach ($authors as $author):?>
                         <li><a href="<?php echo $this->url(array('id_author' => $author->id_author), 'book-author'); ?>"><?php echo $author->author_name; ?></a></li>
