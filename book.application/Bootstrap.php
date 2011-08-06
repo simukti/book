@@ -49,11 +49,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $manager = Doctrine_Manager::getInstance();
         $manager->setAttribute(Doctrine_Core::ATTR_AUTO_ACCESSOR_OVERRIDE, true);
-        $manager->setAttribute(Doctrine::ATTR_MODEL_LOADING, Doctrine_Core::MODEL_LOADING_CONSERVATIVE);
+        $manager->setAttribute(Doctrine_Core::ATTR_MODEL_LOADING, Doctrine_Core::MODEL_LOADING_CONSERVATIVE);
         $manager->setAttribute(Doctrine_Core::ATTR_AUTOLOAD_TABLE_CLASSES, true);
         $manager->setAttribute(Doctrine_Core::ATTR_QUOTE_IDENTIFIER, true);
+        //$manager->setAttribute(Doctrine_Core::ATTR_AUTO_FREE_QUERY_OBJECTS, true);
         $option = $this->getOption('doctrine');
-        $connection = Doctrine_Manager::connection($option['dsn'], 'doctrine');
+        $connection = Doctrine_Manager::connection($option['dsn'], 'minilib');
         $connection->setAttribute(Doctrine_Core::ATTR_USE_NATIVE_ENUM, true);
         return $connection;
     }
@@ -77,8 +78,23 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $options = array(
             'use_only_cookies' => true,
             'cookie_httponly' => true,
-            'name' => 'book_simukti_net_' . strtolower('production')
+            'name' => 'minilib_simukti_net_' . strtolower(APPLICATION_ENV)
         );
         Zend_Session::start($options);
     }
+    
+    /**
+     * Just to check what I have include
+     */
+    protected function _initLoaderCache()
+    {
+        if ('production' === APPLICATION_ENV) {
+            $classFileIncCache = CACHE_PATH . DS . 'class' . DS . 'loaderCache.php';
+            if (file_exists($classFileIncCache)) {
+                include_once $classFileIncCache;
+            }
+            Zend_Loader_PluginLoader::setIncludeFileCache($classFileIncCache);
+        }
+    }
+    
 }

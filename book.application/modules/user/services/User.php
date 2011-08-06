@@ -41,11 +41,16 @@ class User_Service_User extends Core_Service_ServiceAbstract
     protected $_loginForm;
     
     /**
-     * Fixed constructor to set User model
+     * Get authentication model
+     * 
+     * @return User_Model_Auth
      */
-    public function __construct()
+    public function getAuthModel()
     {
-        $this->_authModel = new User_Model_Auth();
+        if (null === $this->_authModel) {
+            $this->_authModel = $this->getModel('User_Model_Auth');
+        }
+        return $this->_authModel;
     }
     
     /**
@@ -58,7 +63,7 @@ class User_Service_User extends Core_Service_ServiceAbstract
     {
         $loginForm = $this->getLoginForm();
         
-        $adapter = $this->_authModel;
+        $adapter = $this->getAuthModel();
         $adapter->setUsername($data['uname'])
                 ->setPassword(sha1($data['passwd']));
         $result = Zend_Auth::getInstance()->authenticate($adapter);
@@ -117,7 +122,7 @@ class User_Service_User extends Core_Service_ServiceAbstract
         
         if (null === $this->_currentUser) {
             $username = $auth->getIdentity();
-            $user     = $this->_authModel->getUserByUsername($username);
+            $user     = $this->getAuthModel()->getUserByUsername($username);
 
             if (! $user) {
                 return new Zend_Acl_Role('guest');

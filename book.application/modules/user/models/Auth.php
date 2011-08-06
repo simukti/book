@@ -12,7 +12,7 @@
  * @author Sarjono Mukti Aji <http://simukti.net/>
  * @copyright (c) 2011 - Sarjono Mukti Aji <http://simukti.net/>
  */
-class User_Model_Auth extends User_Model_User implements Zend_Auth_Adapter_Interface
+class User_Model_Auth extends Minilib_User implements Zend_Auth_Adapter_Interface
 {
     /**
      * Username for authentication
@@ -82,7 +82,7 @@ class User_Model_Auth extends User_Model_User implements Zend_Auth_Adapter_Inter
         if (! $user) {
             $code    = Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND;
             $message = 'User not found.';
-        } elseif ($user->passwd !== $this->_credential) {
+        } elseif ($user->password !== $this->_credential) {
             $code    = Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID;
             $message = 'Password is invalid.';
         } else {

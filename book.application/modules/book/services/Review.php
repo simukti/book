@@ -15,6 +15,11 @@
 class Book_Service_Review extends Core_Service_ServiceAbstract
 {
     /**
+     * Book_Model_Review
+     */
+    const REVIEW_MODEL = 'Book_Model_Review';
+    
+    /**
      * Zend_Acl_Resource
      * 
      * @var string
@@ -22,11 +27,24 @@ class Book_Service_Review extends Core_Service_ServiceAbstract
     protected $_resourceId = 'review';
     
     /**
+     * @var Book_Model_Review
+     */
+    protected $_reviewModel;
+    
+    /**
      * Review form
      *  
      * @var Book_Form_Review
      */
     protected $_reviewForm;
+    
+    public function getReviewModel()
+    {
+        if (null === $this->_reviewModel) {
+            $this->_reviewModel = $this->getModel(self::REVIEW_MODEL);
+        }
+        return $this->_reviewModel;
+    }
     
     /**
      * Get 20 latest reviews from Book_Model_Review
@@ -39,6 +57,19 @@ class Book_Service_Review extends Core_Service_ServiceAbstract
                     ->createQuery()->limit(20)->execute();
         return $reviews;
     }
+    
+    public function insert($id_book, array $data)
+    {
+        try {
+            $this->getReviewModel()->insertReview($id_book, $data);
+            return true;
+        } catch (Exception $exc) {
+            return false;
+        }
+    }
+    
+    public function delete($id_review)
+    {}
     
     /**
      * Get Review Form in a single book display

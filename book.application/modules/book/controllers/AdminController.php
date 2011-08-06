@@ -43,7 +43,6 @@ class Book_AdminController extends Core_Controller_Action
         if (! $this->_bookService->checkAcl('manage')) {
             $this->gotoRouteAndExit(array(), 'login');
         }
-        
         $reviews = $this->getService('Book_Service_Review')->getLatestReview();
         $this->view->reviews = $reviews;
     }
@@ -64,7 +63,10 @@ class Book_AdminController extends Core_Controller_Action
         $this->view->bookForm = $form;
         
         if ($request->isPost() && $form->isValid($request->getPost())) {
-
+            $insert = $this->_bookService->insert($form->getValues());
+            if ($insert) {
+                $this->gotoRouteAndExit(array(), 'book-admin');
+            }
         }
     }
     
@@ -83,12 +85,17 @@ class Book_AdminController extends Core_Controller_Action
         $request = $this->getRequest();
         $id_book = $request->getParam('id_book');
         $book = $this->_bookService->getBookByIdBook($id_book);
-        $form = $this->_bookService->getForm();
-        $form->inject($book);
-        $this->view->bookForm = $form;
-        
-        if ($request->isPost() && $form->isValid($request->getPost())) {
-            
+        if ($book) {
+            $form = $this->_bookService->getForm();
+            $form->inject($book);
+            $this->view->bookForm = $form;
+            if ($request->isPost() && $form->isValid($request->getPost())) {
+                $update = $this->_bookService->update($book, $form->getValues());
+                /*
+                if ($update) {
+                    $this->gotoRouteAndExit(array(), 'book-admin');
+                } */
+            }
         }
     }
     

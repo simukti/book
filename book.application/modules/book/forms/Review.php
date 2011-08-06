@@ -43,7 +43,7 @@ class Book_Form_Review extends Core_Form_BaseForm
                         'style' => 'width: 300px;'
                     ),
                 )),
-                'review_content' => array('textarea', array(
+                'content' => array('textarea', array(
                     'label' => 'Your Review',
                     'required' => true,
                     'validators' => array(
@@ -87,7 +87,7 @@ class Book_Form_Review extends Core_Form_BaseForm
         $this->removeElement('captcha');
         
         /* Set custom values for name and email */
-        $this->getElement('review_content')
+        $this->getElement('content')
              ->setLabel('Your Review (as ' . $user->fullname . ')');
         $this->addElement('hidden', 'name', array(
             'value' => $user->fullname

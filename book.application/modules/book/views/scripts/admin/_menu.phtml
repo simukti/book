@@ -1,12 +1,24 @@
 <h3>Menu</h3>
 <ul>
     <li>
-        <a href="<?php echo $this->url(array(), 'book-admin'); ?>">Latest Reviews / Index</a>
+        <a href="<?php echo $this->url(array(), 'book-admin'); ?>">Index</a>
+    </li>
+    <li>
+        <a href="<?php echo $this->url(array(), 'book-admin'); ?>">Latest Review</a>
     </li>
     <li>
         <a href="<?php echo $this->url(array(), 'book-insert'); ?>">Insert New Book</a>
     </li>
-    <?php if (Core_Service_Proxy::get('Book_Service_Book')->checkAcl('manage')) : ?>
+    <li>
+        <a href="<?php echo $this->url(array(), 'book-insert'); ?>">Create New Author</a>
+    </li>
+    <li>
+        <a href="<?php echo $this->url(array(), 'book-insert'); ?>">Create New Category</a>
+    </li>
+    <li>
+        <a href="<?php echo $this->url(array(), 'book-insert'); ?>">Create New Publisher</a>
+    </li>
+    <?php if ($this->getService('Book_Service_Book')->checkAcl('manage')) : ?>
     <li>
         <a href="<?php echo $this->url(array(), 'book-flushcache'); ?>">Flush All Cache</a>
     </li>

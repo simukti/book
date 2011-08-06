@@ -51,7 +51,7 @@ class Book_IndexController extends Core_Controller_Action
     {
         $request = $this->getRequest();
         $id_author = $request->getParam('id_author');
-        $books = $this->_book_service->getBooksByIdAuthor($id_author);
+        $books = $this->_book_service->getBooksByIdBooksAuthor($id_author);
         if (! $books) {
             $this->getResponse()->setHttpResponseCode(404);
             $this->render('404');
@@ -71,7 +71,7 @@ class Book_IndexController extends Core_Controller_Action
     {
         $request = $this->getRequest();
         $id_category = $request->getParam('id_category');
-        $books = $this->_book_service->getBooksByIdCategory($id_category);
+        $books = $this->_book_service->getBooksByIdBooksCategory($id_category);
         if (! $books) {
             $this->getResponse()->setHttpResponseCode(404);
             $this->render('404');
@@ -91,7 +91,7 @@ class Book_IndexController extends Core_Controller_Action
     {
         $request = $this->getRequest();
         $id_publisher = $request->getParam('id_publisher');
-        $books = $this->_book_service->getBooksByIdPublisher($id_publisher);
+        $books = $this->_book_service->getBooksByIdBooksPublisher($id_publisher);
         if (! $books) {
             $this->getResponse()->setHttpResponseCode(404);
             $this->render('404');
@@ -127,7 +127,12 @@ class Book_IndexController extends Core_Controller_Action
         $this->view->book = $book;
         $this->view->review_form = $form;
         
-        if ($request->isPost() && $form->isValid($request->getPost())) {}
+        if ($request->isPost() && $form->isValid($request->getPost())) {
+            $insert = $this->getService('Book_Service_Review')->insert($id_book, $form->getValues());
+            if ($insert) {
+                $this->gotoRouteAndExit(array('id_book' => $id_book), 'book-view');
+            }
+        }
     }
     
     /**

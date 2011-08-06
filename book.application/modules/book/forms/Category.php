@@ -7,23 +7,20 @@
  */
 
 /**
- * Version
+ * Category
  * 
  * @author Sarjono Mukti Aji <http://simukti.net/>
  * @copyright (c) 2011 - Sarjono Mukti Aji <http://simukti.net/>
  */
-final class Core_Version
+class Book_Form_Category extends Core_Form_BaseForm
 {
-    protected static $_version = '1.2';
-    protected static $_appName = 'My Mini Library';
-    
-    public static function getVersion()
+    public function init()
     {
-        return self::$_version;
+        parent::init();
     }
     
-    public static function getAppName()
+    public function inject(Book_Model_Category $category)
     {
-        return self::$_appName;
+        
     }
 }

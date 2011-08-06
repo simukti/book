@@ -87,7 +87,9 @@ class Core_Service_ServiceAbstract implements Zend_Acl_Resource_Interface
                 throw new Zend_Loader_Exception(sprintf("Service %s is not an instance of Core_Service_ServiceAbstract.", $service));
             }
             
-            self::$_services[$service] = $service_instance;
+            if (! isset(self::$_services[$service])) {
+                self::$_services[$service] = $service_instance;
+            }
         }
     }
     
@@ -103,6 +105,14 @@ class Core_Service_ServiceAbstract implements Zend_Acl_Resource_Interface
         } else {
             throw new Zend_Loader_Exception(sprintf("Service %s has not been registered yet.", $service_name));
         }
+    }
+    
+    public static function getAllRegisteredServices()
+    {
+        foreach (self::$_services as $name => $service) {
+            $services[] = $name;
+        }
+        return $services;
     }
     
     /**
@@ -177,6 +187,24 @@ class Core_Service_ServiceAbstract implements Zend_Acl_Resource_Interface
         }
         
         return $this->_cache;
+    }
+    
+    /**
+     * Get model instance
+     * 
+     * @param string $model_name
+     * @return Core_Doctrine_RecordAbstract
+     */
+    public function getModel($model_name)
+    {
+        if (! class_exists($model_name)) {
+            throw new Zend_Loader_Exception(sprintf("Model %s does not exists", $model_name));
+        }
+        $model_instance = new $model_name;
+        if (! $model_instance instanceof Core_Doctrine_RecordAbstract) {
+            throw new Zend_Loader_Exception(sprintf("Model %s is not valid", $model_name));
+        }
+        return $model_instance;
     }
     
     /**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Book - My Mini Library Application
  * Copyright (c) 2011, Sarjono Mukti Aji <http://simukti.net/>
@@ -7,15 +8,15 @@
  */
 
 /**
- * GetService
+ * RecordAbstract
  * 
  * @author Sarjono Mukti Aji <http://simukti.net/>
  * @copyright (c) 2011 - Sarjono Mukti Aji <http://simukti.net/>
  */
-class Core_View_Helper_GetService
+abstract class Core_Doctrine_RecordAbstract extends Doctrine_Record
 {
     /**
-     * This is a proxy to registered service
+     * Proxy to a registered service
      * 
      * @param string $service_name Service class name
      * @return Core_Service_ServiceAbstract

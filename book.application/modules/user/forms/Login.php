@@ -28,7 +28,6 @@ class User_Form_Login extends Core_Form_BaseForm
                     'attribs' => array(
                         'style' => 'width: 425px; padding: 12px;'
                     ),
-                    //'errorMessages' => array('Required. You have to fill this field'),
                 )),
                 'passwd' => array('password', array(
                     'label'      => 'Password',
@@ -39,9 +38,7 @@ class User_Form_Login extends Core_Form_BaseForm
                     'attribs' => array(
                         'style' => 'width: 425px; padding: 12px;'
                     ),
-                    //'errorMessages' => array('Required. You have to fill this field'),
                 )),
-                /*
                 'captcha' => array('Captcha', array(
                     'label'     => 'reCaptcha',
                     'required'  => true,
@@ -52,7 +49,6 @@ class User_Form_Login extends Core_Form_BaseForm
                     ),
                     'errorMessages' => array('Required. You have to fill this field according to displayed image'),
                 )),
-                */
                 'submit' => array('submit', array(
                     'label' => 'Login',
                     'attribs' => array(

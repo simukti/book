@@ -16,11 +16,11 @@ Komponen-komponen yang saya gunakan dalam aplikasi *service-oriented-arch* ini a
 
 ### CATATAN ###
 
-  *    Dalam aplikasi ini saya tidak menggunakan Doctrine CLI, 
-       jadi untuk setiap definisi model/tabel saya tulis manual 
-       di `MODULE_NAME . '/models/'`. 
+  *    Dalam aplikasi ini saya menggunakan Doctrine CLI untuk menggenerate basemodel yang ada di library path, 
+       dan semua model yang ada di `MODULE_NAME . '/models/'` merujuk pada class tersebut. 
        Anda bisa melihat field-field tabel dan relasinya 
-       di method `setTableDefinition()` didalam tiap class model tersebut.
+       di method `setTableDefinition()` didalam tiap class basemodel tersebut.
+  *    Untuk initial script silahkan dilihat di `book.application/scripts/minilib.sql` (MySQL)
 
 ### PENGGUNAAN ###
 
@@ -29,6 +29,7 @@ Komponen-komponen yang saya gunakan dalam aplikasi *service-oriented-arch* ini a
        dan [Doctrine1](http://www.doctrine-project.org/projects/orm/1.2/docs/en) di setting php.ini include_path.
   *    Untuk setting aplikasi Zend Framework, silahkan dibaca [disini](http://framework.zend.com/manual/en/learning.quickstart.create-project.html).
   *    Untuk merubah koneksi ke database, silahkan edit file `book.application/configs/application.ini` pada baris berikut `doctrine.dsn = `
+  *    Untuk merubah config reCaptcha, silahkan rename file `book.application/configs/misc.default.ini` ke `misc.ini` dan sesuaikan dengan config reCaptcha anda
 
 ### DOKUMENTASI ###
 

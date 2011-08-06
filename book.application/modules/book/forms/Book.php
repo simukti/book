@@ -34,7 +34,7 @@ class Book_Form_Book extends Core_Form_BaseForm
                     'label' => 'Book Abstract',
                     'required' => true,
                     'validators' => array(
-                        array('StringLength', false, array('min' => 6, 'max' => 500))
+                        array('StringLength', false, array('min' => 10))
                     ),
                     'attribs' => array(
                         'rows' => '10',
@@ -42,7 +42,15 @@ class Book_Form_Book extends Core_Form_BaseForm
                     ),
                     'description' => 'Required. Minimum 6 Chars, Maximum 500 Chars.',
                 )),
-                'id_author' => array('select', array(
+                'year_published' => array('text', array(
+                    'label' => 'Year Published',
+                    'required' => true,
+                    'attribs' => array(
+                        'style' => 'width: 100px;'
+                    ),
+                    'description' => 'Required. Write book\'s year published.',
+                )),
+                'id_books_author' => array('select', array(
                     'label' => 'Author',
                     'validators' => array(
                         'digits'
@@ -53,7 +61,7 @@ class Book_Form_Book extends Core_Form_BaseForm
                     'multiOptions' => $this->_getAllAuthor(),
                     'description' => 'Required. Choose one or create new one on textbox below.',
                 )),
-                'id_category' => array('select', array(
+                'id_books_category' => array('select', array(
                     'label' => 'Category',
                     'validators' => array(
                         'digits'
@@ -64,7 +72,7 @@ class Book_Form_Book extends Core_Form_BaseForm
                     'multiOptions' => $this->_getAllCategory(),
                     'description' => 'Required. Choose one or create new one on textbox below.',
                 )),
-                'id_publisher' => array('select', array(
+                'id_books_publisher' => array('select', array(
                     'label' => 'Publisher',
                     'validators' => array(
                         'digits'
@@ -95,13 +103,6 @@ class Book_Form_Book extends Core_Form_BaseForm
                     ),
                     'description' => 'Optional. Paste here book\'s cover url, it will be displayed in 200px width.',
                 )),
-                'year_published' => array('text', array(
-                    'label' => 'Year Published',
-                    'attribs' => array(
-                        'style' => 'width: 100px;'
-                    ),
-                    'description' => 'Optional. Write book\'s year published.',
-                )),
                 'submit' => array('submit', array(
                     'label' => 'Save'
                 ))
@@ -117,12 +118,13 @@ class Book_Form_Book extends Core_Form_BaseForm
     public function inject(Book_Model_Book $book)
     {
         $this->setDefaults(array(
-            'book_title' => $book->book_title,
-            'book_abstract' => $book->book_abstract,
-            'id_author' => $book->id_author,
-            'id_category' => $book->id_category,
-            'id_publisher' => $book->id_publisher,
-            'year_published' => $book->year_published
+            'book_title'     => $book->book_title,
+            'book_abstract'  => $book->book_abstract,
+            'id_author'      => $book->id_books_author,
+            'id_category'    => $book->id_books_category,
+            'id_publisher'   => $book->id_books_publisher,
+            'year_published' => $book->year_published,
+            'isbn'           => $book->isbn,
         ));
         return $this;
     }
@@ -134,11 +136,13 @@ class Book_Form_Book extends Core_Form_BaseForm
      */
     protected function _getAllAuthor()
     {
-        $result = Core_Service_Proxy::get('Book_Service_Book')->getAllAuthor();
-        foreach ($result as $author) {
-            $selectValue[$author->id_author] = $author->author_name;
+        $result = $this->getService('Book_Service_Book')->getAllAuthor();
+        if ($result) {
+            foreach ($result as $author) {
+                $selectValue[$author->id_books_author] = $author->author_name;
+            }
+            return $selectValue;
         }
-        return $selectValue;
     }
     
     /**
@@ -148,11 +152,13 @@ class Book_Form_Book extends Core_Form_BaseForm
      */
     protected function _getAllCategory()
     {
-        $result = Core_Service_Proxy::get('Book_Service_Book')->getAllCategory();
-        foreach ($result as $category) {
-            $selectValue[$category->id_category] = $category->category_name;
+        $result = $this->getService('Book_Service_Book')->getAllCategory();
+        if ($result) {
+            foreach ($result as $category) {
+                $selectValue[$category->id_books_category] = $category->category_name;
+            }
+            return $selectValue;
         }
-        return $selectValue;
     }
     
     /**
@@ -162,10 +168,12 @@ class Book_Form_Book extends Core_Form_BaseForm
      */
     protected function _getAllPublisher()
     {
-        $result = Core_Service_Proxy::get('Book_Service_Book')->getAllPublisher();
-        foreach ($result as $publisher) {
-            $selectValue[$publisher->id_publisher] = $publisher->publisher_name;
-        }
-        return $selectValue;
+        $result = $this->getService('Book_Service_Book')->getAllPublisher();
+        if ($result) {
+            foreach ($result as $publisher) {
+                $selectValue[$publisher->id_books_publisher] = $publisher->publisher_name;
+            }
+            return $selectValue;
+        } 
     }
 }

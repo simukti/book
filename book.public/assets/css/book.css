@@ -70,13 +70,13 @@ a:hover {
 }
 ul.top_menu {
     text-align: right;
-    margin: 6px 0;
+    margin: 8px 0;
 }
 ul.top_menu li {
     display: inline;
 }
 ul.top_menu li a {
-    font-size: 14px;
+    font-size: 12px;
     color: #eee;
     padding: 5px 10px;
 }
@@ -124,7 +124,7 @@ ul.top_menu li a:hover {
 }
 .full_page h2 {
     font-size: 18px;
-    border-bottom: 1px dashed #666;
+    border-bottom: 1px dashed #ccc;
     margin-bottom: 10px;
 }
 .full_page p {
@@ -145,6 +145,7 @@ ul.top_menu li a:hover {
     padding-left: 20px;
     font-weight: normal;
     padding-bottom: 10px;
+    word-wrap: break-word;
 }
 .full_page .footnote {
     width: 33%;

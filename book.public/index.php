@@ -1,5 +1,4 @@
 <?php
-header('X-Powered-By: Sarjono Mukti Aji');
 // Define directory separator constant
 define('DS', DIRECTORY_SEPARATOR);
 
