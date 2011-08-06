@@ -91,10 +91,9 @@ class Book_AdminController extends Core_Controller_Action
             $this->view->bookForm = $form;
             if ($request->isPost() && $form->isValid($request->getPost())) {
                 $update = $this->_bookService->update($book, $form->getValues());
-                /*
                 if ($update) {
-                    $this->gotoRouteAndExit(array(), 'book-admin');
-                } */
+                    $this->gotoRouteAndExit(array('id_book' => $id_book), 'book-view');
+                }
             }
         }
     }
