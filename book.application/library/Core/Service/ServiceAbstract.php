@@ -68,11 +68,9 @@ class Core_Service_ServiceAbstract implements Zend_Acl_Resource_Interface
         }
     }
     /**
-     * Register all service you want to load.
+     * Register all service name you want to load. 
+     * This will only register service class name.
      * 
-     * @todo This is still an experimental registrar, it will load all instance of registered
-     *        service class name on bootstrap. 
-     *        Please fix this with separated lazy loading service container.
      * @param array $services List of service namespace / class name
      */
     public static function registerServices(array $services)
@@ -81,14 +79,9 @@ class Core_Service_ServiceAbstract implements Zend_Acl_Resource_Interface
             if (! class_exists($service)) {
                 throw new Zend_Loader_Exception(sprintf("Class %s does not exists.", $service));
             }
-            $service_instance = new $service;
-            
-            if (! $service_instance instanceof Core_Service_ServiceAbstract) {
-                throw new Zend_Loader_Exception(sprintf("Service %s is not an instance of Core_Service_ServiceAbstract.", $service));
-            }
             
             if (! isset(self::$_services[$service])) {
-                self::$_services[$service] = $service_instance;
+                self::$_services[$service] = $service;
             }
         }
     }
@@ -100,13 +93,28 @@ class Core_Service_ServiceAbstract implements Zend_Acl_Resource_Interface
      * @return Core_Service_ServiceAbstract
      */
     public static function getService($service_name) {
-        if (isset (self::$_services[$service_name])) {
-            return self::$_services[$service_name];
-        } else {
+        if (! isset (self::$_services[$service_name])) {
             throw new Zend_Loader_Exception(sprintf("Service %s has not been registered yet.", $service_name));
         }
+        
+        if (! self::$_services[$service_name] instanceof Core_Service_ServiceAbstract) {
+            $service_instance = new $service_name;
+
+            if (! $service_instance instanceof Core_Service_ServiceAbstract) {
+                throw new Zend_Loader_Exception(sprintf("Service %s is not an instance of Core_Service_ServiceAbstract.", $service_name));
+            }
+
+            self::$_services[$service_name] = $service_instance;
+        }
+
+        return self::$_services[$service_name];
     }
     
+    /**
+     * Get all registered service class name
+     * 
+     * @return array
+     */
     public static function getAllRegisteredServices()
     {
         foreach (self::$_services as $name => $service) {
