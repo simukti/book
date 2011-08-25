@@ -86,6 +86,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     /**
      * Just to check what I have include
      */
+    /*
     protected function _initLoaderCache()
     {
         if ('production' === APPLICATION_ENV) {
@@ -97,4 +98,5 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
     }
     
+    */
 }
