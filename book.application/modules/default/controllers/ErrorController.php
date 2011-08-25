@@ -40,20 +40,25 @@ class ErrorController extends Core_Controller_Action
                 //$params = $this->getRequest()->getParams();
                 $this->view->requestUri = $errors['request']->getRequestUri();
                 //$this->render('noroute');
+                
+                /**
+                 * remove next 3 lines to log your error
                 $writer = new Zend_Log_Writer_Stream(LOG_PATH . DS . '404.log');
                 $logger->addWriter($writer);
                 $logger->log('[' . $_SERVER["REMOTE_ADDR"] . '] ' . $errors->exception->getMessage(), Zend_Log::ERR);
-
+                */
                 break;
             default:
                 // application error
                 $this->getResponse()->setHttpResponseCode(500);
                 $this->view->message = 'Application error';
 
+                /**
+                 * remove next 3 lines to log your error
                 $writer = new Zend_Log_Writer_Stream(LOG_PATH . DS . '500.log');
                 $logger->addWriter($writer);
                 $logger->log($errors->exception->getMessage(), Zend_Log::ERR);
-                
+                */
                 break;
         }
         // conditionally display exceptions
