@@ -54,9 +54,9 @@ class Core_Bootloader
     private static function checkRequirements()
     {
         /** Check php version before entire application executed */
-        if(version_compare(phpversion(), '5.2.10', '<') === true) {
+        if(version_compare(phpversion(), '5.2.6', '<') === true) {
             echo '<center><div style="font:.9em/1.5em arial, helvetica, sans-serif;">
-                 <h3>Warning</h3><p>I need PHP 5.2.10 or above to run this application.
+                 <h3>Warning</h3><p>I need PHP 5.2.6 or above to run this application.
                  And make sure you have mod_rewrite activated.
                  <br/>Your PHP version is <strong>' . phpversion() . '</strong></p>' .
                  '</div></center>';
@@ -89,14 +89,8 @@ class Core_Bootloader
             || define('LOG_PATH', VAR_PATH . DS . 'log');
         defined('MODULE_PATH')
             || define('MODULE_PATH', APPLICATION_PATH . DS . 'modules');
-        
         defined('SYSTEM_CONFIG')
             || define('SYSTEM_CONFIG', CONFIG_PATH . DS . self::$_configFilenames['system']);
-        
-        set_include_path(implode(PATH_SEPARATOR, array(
-            APP_LIB_PATH,       // application libraries path
-            get_include_path()  // PHP include path
-        )));
     }
 
     /**
