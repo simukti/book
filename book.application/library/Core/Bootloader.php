@@ -76,9 +76,6 @@ class Core_Bootloader
      */
     private static function setEnvironment()
     {
-        defined('APPLICATION_ENV')
-            || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
-
         defined('CONFIG_PATH')
             || define('CONFIG_PATH', APPLICATION_PATH . DS . 'configs');
         defined('VAR_PATH')
