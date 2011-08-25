@@ -11,8 +11,8 @@ define('MODULE_PATH',   APPLICATION_PATH . DS . 'modules');
 
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
+    realpath(APPLICATION_PATH . '/../library'),
     APP_LIB_PATH , 
-    get_include_path(),
 )));
 
 /* Call bootloader, pre-check, and run application */
