@@ -52,7 +52,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $manager->setAttribute(Doctrine_Core::ATTR_MODEL_LOADING, Doctrine_Core::MODEL_LOADING_CONSERVATIVE);
         $manager->setAttribute(Doctrine_Core::ATTR_AUTOLOAD_TABLE_CLASSES, true);
         $manager->setAttribute(Doctrine_Core::ATTR_QUOTE_IDENTIFIER, true);
-        //$manager->setAttribute(Doctrine_Core::ATTR_AUTO_FREE_QUERY_OBJECTS, true);
+        $manager->setAttribute(Doctrine_Core::ATTR_AUTO_FREE_QUERY_OBJECTS, true);
         $option = $this->getOption('doctrine');
         $connection = Doctrine_Manager::connection($option['dsn'], 'minilib');
         $connection->setAttribute(Doctrine_Core::ATTR_USE_NATIVE_ENUM, true);
@@ -78,7 +78,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $options = array(
             'use_only_cookies' => true,
             'cookie_httponly' => true,
-            'name' => 'minilib_simukti_net_' . strtolower(APPLICATION_ENV)
+            'name' => 'minilib_' . strtolower(APPLICATION_ENV)
         );
         Zend_Session::start($options);
     }
