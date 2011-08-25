@@ -1,7 +1,7 @@
 <?php echo $this->doctype(); ?>
 <html lang="id" xml:lang="id">
     <head>
-        <?php $user = (! $this->getService('User_Service_User')->isGuest()) ? '(' . $this->getService('User_Service_User')->getCurrentUser()->fullname . ')' : null; ?>
+        <?php $user = (! $this->getService('User_Service_User')->isGuest()) ? '(' . $this->escape($this->getService('User_Service_User')->getCurrentUser()->fullname) . ')' : null; ?>
         <?php $this->headTitle(Core_Version::getAppName() . ' v' . Core_Version::getVersion() . " {$user}")->setSeparator(' - '); ?>
         <?php $this->headLink()->prependStylesheet('/assets/css/book.css'); ?>
         <?php $this->headLink()->prependStylesheet('/assets/css/960.css'); ?>
@@ -51,7 +51,7 @@
                     <?php if ($categories) : ?>
                     <ul>
                         <?php foreach ($categories as $category):?>
-                        <li><a href="<?php echo $this->url(array('id_category' => $category->id_books_category), 'book-category'); ?>"><?php echo $category->category_name; ?></a></li>
+                        <li><a href="<?php echo $this->url(array('id_category' => $category->id_books_category), 'book-category'); ?>"><?php echo $this->escape($category->category_name); ?> (<?php echo $category->Books->count(); ?>)</a></li>
                         <?php endforeach; ?>
                     </ul>
                     <?php endif; ?>
@@ -62,7 +62,7 @@
                     <?php if ($publishers) : ?>
                     <ul>
                         <?php foreach ($publishers as $publisher):?>
-                        <li><a href="<?php echo $this->url(array('id_publisher' => $publisher->id_books_publisher), 'book-publisher'); ?>"><?php echo $publisher->publisher_name; ?></a></li>
+                        <li><a href="<?php echo $this->url(array('id_publisher' => $publisher->id_books_publisher), 'book-publisher'); ?>"><?php echo $this->escape($publisher->publisher_name); ?> (<?php echo $publisher->Books->count(); ?>)</a></li>
                         <?php endforeach; ?>
                     </ul>
                     <?php endif; ?>
@@ -73,7 +73,7 @@
                     <?php if ($authors): ?>
                     <ul>
                         <?php foreach ($authors as $author):?>
-                        <li><a href="<?php echo $this->url(array('id_author' => $author->id_books_author), 'book-author'); ?>"><?php echo $author->author_name; ?></a></li>
+                        <li><a href="<?php echo $this->url(array('id_author' => $author->id_books_author), 'book-author'); ?>"><?php echo $this->escape($author->author_name); ?> (<?php echo $author->Books->count(); ?>)</a></li>
                         <?php endforeach; ?>
                     </ul>
                     <?php endif; ?>
@@ -93,7 +93,7 @@
                 <div class="grid_12">
                     <div class="copyright">
                         <p class="left">Copyright &copy; 2011 - <a href="http://simukti.net/">Sarjono Mukti Aji</a></p>
-                        <p class="right"><a href="http://minilib.simukti.net/">minilib.simukti.net</a> adalah bagian dari <a href="http://simukti.net/">simukti.net</a></p>
+                        <p class="right"><a href="http://<?php echo $_SERVER["HTTP_HOST"]; ?>"><?php echo $_SERVER["HTTP_HOST"]; ?></a> adalah bagian dari <a href="http://simukti.net/">simukti.net</a></p>
                     </div>
                 </div>
             </div>

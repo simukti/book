@@ -1,3 +1,5 @@
+AddDefaultCharset UTF-8
+
 # set gzip transfer if possible
 # http://developer.yahoo.com/blogs/ydn/posts/2010/12/pushing-beyond-gzipping/
 <IfModule mod_headers.c>
@@ -30,14 +32,14 @@
 # file css
 <FilesMatch "\.(css)$">
     <IfModule mod_headers.c>
-        Header set Content-type "text/css"
+        Header set Content-type "text/css; charset=UTF-8"
         Header set Cache-Control "max-age=29030400, private, proxy-revalidate"
     </IfModule>
 </FilesMatch>
 # file javascript
 <FilesMatch "\.(js)$">
     <IfModule mod_headers.c>
-        Header set Content-type "text/javascript"
+        Header set Content-type "text/javascript; charset=UTF-8"
         Header set Cache-Control "max-age=29030400, private, proxy-revalidate"
     </IfModule>
 </FilesMatch>
