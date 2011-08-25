@@ -1,0 +1,26 @@
+<div class="grid_3 home_panel radius_10 left">
+    <?php echo $this->render('admin/_menu.phtml'); ?>
+</div>
+<div class="grid_9 book_detail radius_10 right">
+    <h1>
+        Books Author
+    </h1>
+    <div class="book_detail_content">
+        <?php echo $this->authorForm; ?>
+        <?php $authors = $this->getService('Book_Service_Book')->getAllAuthor(); ?>
+        <ul>
+        <?php foreach ($authors as $author):?>
+            <li class="radius_10" style="min-height: 10px !important;">
+                <p style="margin-left: 5px !important; padding: 5px !important;">
+                    <?php echo $this->escape($author->author_name); ?> (<?php echo $author->Books->count(); ?> books) 
+                    <?php if ($this->getService('Book_Service_Book')->checkAcl('manage')) : ?> <br />
+                    <a href="<?php echo $this->url(array('id_author' => $author->id_books_author), 'book-update-author'); ?>">Edit</a> 
+                    - 
+                    <a href="<?php echo $this->url(array('id_author' => $author->id_books_author), 'book-delete-author'); ?>">Delete</a>
+                    <?php endif; ?>
+                </p>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+    </div>
+</div>

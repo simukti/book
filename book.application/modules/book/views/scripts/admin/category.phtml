@@ -1,0 +1,28 @@
+<div class="grid_3 home_panel radius_10 left">
+    <?php echo $this->render('admin/_menu.phtml'); ?>
+</div>
+<div class="grid_9 book_detail radius_10 right">
+    <h1>
+        Books Category
+    </h1>
+    <div class="book_detail_content">
+    <?php echo $this->categoryForm; ?>
+        
+    <?php $categories = $this->getService('Book_Service_Book')->getAllCategory(); ?>
+    <ul>
+    <?php foreach ($categories as $category):?>
+        
+            <li class="radius_10" style="min-height: 10px !important;">
+                <p style="margin-left: 5px !important; padding: 5px !important;">
+                    <?php echo $this->escape($category->category_name); ?> (<?php echo $category->Books->count(); ?> books) 
+                    <?php if ($this->getService('Book_Service_Book')->checkAcl('manage')) : ?> <br />
+                    <a href="<?php echo $this->url(array('id_category' => $category->id_books_category), 'book-update-category'); ?>">Edit</a> 
+                    - 
+                    <a href="<?php echo $this->url(array('id_category' => $category->id_books_category), 'book-delete-category'); ?>">Delete</a>
+                    <?php endif; ?>
+                </p>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+    </div>
+</div>
