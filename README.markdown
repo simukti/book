@@ -29,8 +29,7 @@ Komponen-komponen yang saya gunakan dalam aplikasi *service-oriented-arch* ini a
        dan [Doctrine1](http://www.doctrine-project.org/projects/orm/1.2/docs/en) di setting php.ini include_path.
   *    Untuk setting aplikasi Zend Framework, silahkan dibaca [disini](http://framework.zend.com/manual/en/learning.quickstart.create-project.html).
   *    Untuk merubah koneksi ke database, silahkan edit file `book.application/configs/application.ini` pada baris berikut `doctrine.dsn = `
-  *    Untuk merubah config reCaptcha, silahkan rename file `book.application/configs/misc.default.ini` ke `misc.ini` dan sesuaikan dengan config reCaptcha anda
-
+  *    Untuk error logging ke file silahkan rubah file `book.application/modules/default/controllers/errorController.php` dan ikuti petunjuk didalam file tersebut.
 ### DOKUMENTASI ###
 
   *    Semua kode terdokumentasi di setiap docblock method di setiap class.
