@@ -4,17 +4,15 @@
  */
 error_reporting(E_ALL);
 
-define('ROOT_PATH', realpath(dirname(__FILE__)));
+//define('ROOT_PATH', realpath(dirname(__FILE__)));
 define('APPLICATION_PATH', realpath(dirname(__FILE__) . "/../"));
 define('APPLICATION_ENV', 'production');
-define('APP_LIB_PATH',
-        APPLICATION_PATH . '/library');
+define('APP_LIB_PATH', APPLICATION_PATH . '/library');
 
 set_include_path(implode(PATH_SEPARATOR, array(
     //application library
     APP_LIB_PATH ,
-    // include zend framework library if it's not include in php.ini
-    // get all the php.ini include path(s)
+    // I assume that you have include ZF on your php.ini include_path
     get_include_path(),
 )));
 
@@ -30,7 +28,7 @@ $application = new Zend_Application(
 // Read in the application.ini bootstrap for Doctrine
 $application->getBootstrap()->bootstrap('doctrine');
 $config = $application->getOption('doctrine');
-Doctrine_Core::generateModelsFromDb(APPLICATION_PATH . '/library/Minilib', array('minilib'), array(
+Doctrine_Core::generateModelsFromDb(APP_LIB_PATH . '/Minilib', array('minilib'), array(
     'phpDocPackage'         =>'Minilib',
     'phpDocSubpackage'      =>'MainModel',
     'phpDocName'            =>'Sarjono Mukti Aji',

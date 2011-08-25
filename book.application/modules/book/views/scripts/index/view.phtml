@@ -6,23 +6,23 @@
         </div>
         <li>
             <span>Author: </span> <br />
-            <a href="<?php echo $this->url(array('id_author' => $this->book->id_books_author), 'book-author'); ?>"><?php echo $this->book->BooksAuthor->author_name; ?></a>
+            <a href="<?php echo $this->url(array('id_author' => $this->book->id_books_author), 'book-author'); ?>"><?php echo $this->escape($this->book->BooksAuthor->author_name); ?></a>
         </li>
         <li>
             <span>Category: </span> <br />
-            <a href="<?php echo $this->url(array('id_category' => $this->book->id_books_category), 'book-category'); ?>"><?php echo $this->book->BooksCategory->category_name; ?></a>
+            <a href="<?php echo $this->url(array('id_category' => $this->book->id_books_category), 'book-category'); ?>"><?php echo $this->escape($this->book->BooksCategory->category_name); ?></a>
         </li>
         <li>
             <span>Publisher: </span> <br />
-            <a href="<?php echo $this->url(array('id_publisher' => $this->book->id_books_publisher), 'book-publisher'); ?>"><?php echo $this->book->BooksPublisher->publisher_name; ?></a>
+            <a href="<?php echo $this->url(array('id_publisher' => $this->book->id_books_publisher), 'book-publisher'); ?>"><?php echo $this->escape($this->book->BooksPublisher->publisher_name); ?></a>
         </li>
         <li>
             <span>Year Published: </span> <br />
-            <?php echo $this->book->year_published; ?>
+            <?php echo $this->escape($this->book->year_published); ?>
         </li>
         <li>
             <span>ISBN: </span> <br />
-            <?php echo ($this->book->isbn) ? $this->book->isbn : 'N/A'; ?>
+            <?php echo ($this->book->isbn) ? $this->escape($this->book->isbn) : 'N/A'; ?>
         </li>
         <?php if ($this->getService('Book_Service_Book')->checkAcl('manage')) : ?>
         <li>
@@ -34,12 +34,15 @@
 </div>
 <div class="grid_9 book_detail radius_10 right">
     <h1>
-        <?php echo $this->book->book_title; ?>
+        <?php echo $this->escape($this->book->book_title); ?>
     </h1>
     <div class="book_detail_content">
-        <p><?php echo $this->book->book_abstract; ?></p>
+        <p>
+            <?php echo nl2br($this->book->book_abstract); ?>
+        </p>
+        
         <h3 class="radius_5">Review(s)</h3>
-        <?php if ($this->book->BooksReview): ?>
+        <?php if ($this->book->BooksReview->count() !== 0): ?>
         <ul>
         <?php foreach ($this->book->BooksReview as $review) : ?>
             <li class="radius_10">
@@ -47,8 +50,8 @@
                     <?php echo $this->gravatar($review->email, array('img_size' => 48), array('alt' => 'reviewer\'s gravatar', 'class' => 'radius_5')); ?>
                 </div>
                 <p>
-                    <span>Sarjono Mukti Aji - <?php echo new Zend_Date(); ?></span> <br>
-                    <?php echo $review->content; ?>
+                    <span><?php echo $this->escape($review->name); ?> - <?php echo new Zend_Date($review->review_time); ?></span> <br>
+                    <?php echo nl2br($review->content); ?>
                     <?php if ($this->getService('Book_Service_Review')->checkAcl('delete')) : ?>
                     <br />
                     <a href="#">Delete This Review</a>

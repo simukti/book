@@ -16,11 +16,31 @@ class Book_Form_Category extends Core_Form_BaseForm
 {
     public function init()
     {
-        parent::init();
+        $this->setOptions(array(
+            'elements' => array(
+                'category_name' => array('text', array(
+                    'label' => 'Category Name',
+                    'required' => true,
+                    'validators' => array(
+                        array('StringLength', false, array('min' => 3, 'max' => 140))
+                    ),
+                    'attribs' => array(
+                        'style' => 'width: 300px;'
+                    ),
+                    'description' => 'Required. Minimum 3 Chars, Maximum 140 Chars.',
+                )),
+                'submit' => array('submit', array(
+                    'label' => 'Save'
+                )),
+            )
+        ));
     }
     
     public function inject(Book_Model_Category $category)
     {
-        
+        $this->setDefaults(array(
+            'category_name' => $category->category_name
+        ));
+        return $this;
     }
 }

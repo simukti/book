@@ -118,13 +118,13 @@ class Book_Form_Book extends Core_Form_BaseForm
     public function inject(Book_Model_Book $book)
     {
         $this->setDefaults(array(
-            'book_title'     => $book->book_title,
-            'book_abstract'  => $book->book_abstract,
-            'id_author'      => $book->id_books_author,
-            'id_category'    => $book->id_books_category,
-            'id_publisher'   => $book->id_books_publisher,
-            'year_published' => $book->year_published,
-            'isbn'           => $book->isbn,
+            'book_title'            => $book->book_title,
+            'book_abstract'         => $book->book_abstract,
+            'id_books_author'       => $book->id_books_author,
+            'id_books_category'     => $book->id_books_category,
+            'id_books_publisher'    => $book->id_books_publisher,
+            'year_published'        => $book->year_published,
+            'isbn'                  => $book->isbn,
         ));
         return $this;
     }

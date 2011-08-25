@@ -35,6 +35,11 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
     const PUBLISHER_MODEL   = 'Book_Model_Publisher';
     
     /**
+     * Zend cache id salt
+     */
+    const CACHEID_SALT      = 'simukti.net';
+    
+    /**
      * Zend_Acl_Resource
      * 
      * @var string
@@ -91,6 +96,7 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
         if (null === $this->_bookModel) {
             $this->_bookModel = $this->getModel(self::BOOK_MODEL);
         }
+        
         return $this->_bookModel;
     }
     
@@ -104,6 +110,7 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
         if (null === $this->_authorModel) {
             $this->_authorModel = $this->getModel(self::AUTHOR_MODEL);
         }
+        
         return $this->_authorModel;
     }
     
@@ -117,6 +124,7 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
         if (null === $this->_categoryModel) {
             $this->_categoryModel = $this->getModel(self::CATEGORY_MODEL);
         }
+        
         return $this->_categoryModel;
     }
     
@@ -130,6 +138,7 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
         if (null === $this->_publisherModel) {
             $this->_publisherModel = $this->getModel(self::PUBLISHER_MODEL);
         }
+        
         return $this->_publisherModel;
     }
     
@@ -147,25 +156,6 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
         } catch (Exception $exc) {
             return false;
         }
-    }
-    
-    /**
-     * Delete single book
-     * 
-     * @param integer $id_book
-     * @return boolean Deletion status
-     */
-    public function delete($id_book)
-    {
-        $book = $this->getBookByIdBook($id_book);
-        if ($book) {
-            $delete = $this->getBookModel()->deleteBook($book);
-            if ($delete) {
-                $this->getCache()->remove('book_' . md5($book->id_books));
-                return true;
-            }
-        }
-        return false;
     }
     
     /**
@@ -187,6 +177,194 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
     }
     
     /**
+     * Delete single book
+     * 
+     * @param integer $id_book
+     * @return boolean Deletion status
+     */
+    public function delete($id_book)
+    {
+        $book = $this->getBookByIdBook($id_book);
+        if ($book) {
+            $delete = $this->getBookModel()->deleteBook($book);
+            if ($delete) {
+                $this->getCache()->remove('book_' . md5($id_book));
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * @see Book_Model_Author::getAuthor()
+     * @param int $id_author
+     * @return Doctrine_Record
+     */
+    public function getAuthor($id_author)
+    {
+        return $this->getAuthorModel()->getAuthor($id_author);
+    }
+    
+    /**
+     * @see Book_Model_Author::insertAuthor()
+     * @param array $data
+     * @return boolean
+     */
+    public function insertAuthor(array $data)
+    {
+        try {
+            $this->getAuthorModel()->insertAuthor($data);
+            return true;
+        } catch (Exception $exc) {
+            return false;
+        }
+    }
+    
+    /**
+     * @see Book_Model_Author::updateAuthor()
+     * @param Book_Model_Author $author
+     * @param array $new_data
+     * @return boolean
+     */
+    public function updateAuthor(Book_Model_Author $author, array $new_data)
+    {
+        try {
+            $update = $this->getAuthorModel()->updateAuthor($author, $new_data);
+            return $update;
+        } catch (Exception $exc) {
+            return false;
+        }
+    }
+    
+    /**
+     * @see Book_Model_Author::deleteAuthor()
+     * @param int $id_author
+     * @return boolean
+     */
+    public function deleteAuthor($id_author)
+    {
+        $author = $this->getAuthor($id_author);
+        
+        if ($author) {
+            $delete = $this->getAuthorModel()->deleteAuthor($author);
+            return $delete;
+        }
+    }
+    
+    /**
+     * @param int $id_category
+     * @see Book_Model_Category::getCategory()
+     */
+    public function getCategory($id_category)
+    {
+        return $this->getCategoryModel()->getCategory($id_category);
+    }
+    
+    /**
+     * @param array $data
+     * @see Book_Model_Category::insertCategory()
+     */
+    public function insertCategory(array $data)
+    {
+        try {
+            $this->getCategoryModel()->insertCategory($data);
+            return true;
+        } catch (Exception $exc) {
+            return false;
+        }
+    }
+    
+    /**
+     * @see Book_Model_Category::updateCategory()
+     * @param Book_Model_Category $category
+     * @param array $new_data
+     * @return boolean
+     */
+    public function updateCategory(Book_Model_Category $category, array $new_data)
+    {
+        try {
+            $update = $this->getCategoryModel()->updateCategory($category, $new_data);
+            return $update;
+        } catch (Exception $exc) {
+            return false;
+        }
+    }
+    
+    /**
+     * @see Book_Model_Category::deleteCategory()
+     * @param int $id_category
+     * @return boolean true If succesful
+     */
+    public function deleteCategory($id_category)
+    {
+        $category = $this->getCategory($id_category);
+        
+        if ($category) {
+            $delete = $this->getCategoryModel()->deleteCategory($category);
+            return $delete;
+        }
+        return false;
+    }
+    
+    /**
+     * @see Book_Model_Publisher::getPublisher()
+     * @param int $id_publisher
+     * @return Doctrine_Record
+     */
+    public function getPublisher($id_publisher)
+    {
+        return $this->getPublisherModel()->getPublisher($id_publisher);
+    }
+    
+    /**
+     * @see Book_Model_Publisher::insertPublisher()
+     * @param array $data
+     * @return boolean insertation status
+     */
+    public function insertPublisher(array $data)
+    {
+        try {
+            $this->getPublisherModel()->insertPublisher($data);
+            return true;
+        } catch (Exception $exc) {
+            return false;
+        }
+    }
+    
+    /**
+     * @see Book_Model_Publisher::updatePublisher()
+     * @param Book_Model_Publisher $publisher
+     * @param array $new_data
+     * @return void|false
+     */
+    public function updatePublisher(Book_Model_Publisher $publisher, array $new_data)
+    {
+        try {
+            $update = $this->getPublisherModel()->updatePublisher($publisher, $new_data);
+            return $update;
+        } catch (Exception $exc) {
+            return false;
+        }
+    }
+    
+    /**
+     * @see Book_Model_Publisher::deletePublisher()
+     * @param int $id_publisher
+     * @return boolean True if succesful
+     */
+    public function deletePublisher($id_publisher)
+    {
+        $publisher = $this->getPublisher($id_publisher);
+        
+        if ($publisher) {
+            $delete = $this->getPublisherModel()->deletePublisher($publisher);
+            return $delete;
+        }
+        return false;
+    }
+    
+    /**
      * Get single book object and cache it
      * 
      * @param int $id_book
@@ -202,8 +380,7 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
         }
         
         if (! isset($book) || false === $book) {
-            $book = Doctrine_Core::getTable(self::BOOK_MODEL)
-                                 ->findOneByIdBooks($id_book);
+            $book = $this->getBookModel()->getBook($id_book);
             if ($book) {
                 if (null !== $cache) {
                     $cache->save($book, $cacheId);
@@ -212,6 +389,7 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
                 return false;
             }
         }
+        
         return $book;
     }
 
@@ -225,12 +403,14 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
      */
     public function getBooksByIdBooksAuthor($id_author, $paginator = false)
     {
-        $books = Doctrine_Core::getTable(self::AUTHOR_MODEL);
+        $author_model = $this->getAuthorModel();
+        
         if ($paginator) {
-            $query = $books->createQuery();
+            $query = $author_model->getTable()->createQuery('b');
             return $query;
         }
-        return $books->findOneByIdBooksAuthor($id_author);
+        
+        return $author_model->getAuthor($id_author);
     }
     
     /**
@@ -243,12 +423,14 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
      */
     public function getBooksByIdBooksCategory($id_category, $paginator = false)
     {
-        $books = Doctrine_Core::getTable(self::CATEGORY_MODEL);
+        $category_model = $this->getCategoryModel();
+        
         if ($paginator) {
-            $query = $books->createQuery();
+            $query = $category_model->getTable()->createQuery('c');
             return $query;
         }
-        return $books->findOneByIdBooksCategory($id_category);
+        
+        return $category_model->getCategory($id_category);
     }
     
     /**
@@ -261,12 +443,14 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
      */
     public function getBooksByIdBooksPublisher($id_publisher, $paginator = false)
     {
-        $books = Doctrine_Core::getTable(self::PUBLISHER_MODEL);
+        $publisher_model = $this->getPublisherModel();
+        
         if ($paginator) {
-            $query = $books->createQuery();
+            $query = $publisher_model->getTable()->createQuery('p');
             return $query;
         }
-        return $books->findOneByIdBooksPublisher($id_publisher);
+        
+        return $publisher_model->getPublisher($id_publisher);
     }
     
     /**
@@ -275,14 +459,10 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
      * @param bool $paginator   Prepare for pagination ?
      * @return Doctrine_Collection | Doctrine_Query
      */
-    public function getAllBooks($paginator = false)
+    public function getAllBooks($get_paging = false, $limit = 18)
     {
-        $query = Doctrine_Query::create()->from(self::BOOK_MODEL)
-                 ->orderBy('date_added DESC');
-        if ($paginator) {
-            return $query;
-        }
-        return $query->execute();
+        $books = $this->getBookModel()->getAllBooks($get_paging, $limit);
+        return $books;
     }
     
     /**
@@ -292,11 +472,9 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
      * @param  bool $cache   Cache result or not ?
      * @return Doctrine_Collection
      */
-    public function getLatestBooks($limit = 10, $cache = false)
+    public function getLatestBooks($limit = 10, $getcache = false)
     {
-        $query = Doctrine_Query::create()->from(self::BOOK_MODEL)
-                 ->orderBy('date_added DESC')->limit($limit);
-        $books = $query->execute();
+        $books = $this->getBookModel()->getLatestBook($limit);
         return $books;
     }
     
@@ -311,22 +489,24 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
         $cache = $this->getCache();
         
         if ($getcache && null !== $cache) {
-            $cacheId = 'book_authors_' . md5('minilib.simukti.net');
+            $cacheId = 'book_authors_' . md5(self::CACHEID_SALT);
             $authors = $cache->load($cacheId);
         }
         
+        $author_model = $this->getAuthorModel();
+        
         if (! isset($authors) || false === $authors) {
-            $table = Doctrine_Core::getTable(self::AUTHOR_MODEL);
-            $authors = $table->findAll();
+            $authors = $author_model->getAllAuthor();
             if (0 !== $authors->count()) {
                 if ($getcache && null !== $cache) {
                     $cache->save($authors, $cacheId);
                 }
             } else { /* this will create a default record if no author found */
-                $table->create(array('author_name' => 'Unknown'))->save();
-                $authors = $table->findAll();
+                $author_model->insertAuthor(array('author_name' => 'Unknown'));
+                $authors = $author_model->getAllAuthor();
             }
         }
+        
         return $authors;
     }
     
@@ -341,22 +521,24 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
         $cache = $this->getCache();
         
         if ($getcache && null !== $cache) {
-            $cacheId = 'book_categories_' . md5('minilib.simukti.net');
+            $cacheId = 'book_categories_' . md5(self::CACHEID_SALT);
             $categories = $cache->load($cacheId);
         }
         
+        $category_model = $this->getCategoryModel();
+        
         if (! isset($categories) || false === $categories) {
-            $table = Doctrine_Core::getTable(self::CATEGORY_MODEL);
-            $categories = $table->findAll();
+            $categories = $category_model->getAllCategory();
             if (0 !== $categories->count()) {
                 if ($getcache && null !== $cache) {
                     $cache->save($categories, $cacheId);
                 }
             } else { /* this will create a default record if no category found */
-                $table->create(array('category_name' => 'No Category'))->save();
-                $categories = $table->findAll();
+                $category_model->insertCategory(array('category_name' => 'No Category'));
+                $categories = $category_model->getAllCategory();
             }
         }
+        
         return $categories;
     }
     
@@ -371,22 +553,24 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
         $cache = $this->getCache();
         
         if ($getcache && null !== $cache) {
-            $cacheId = 'book_publishers_' . md5('minilib.simukti.net');
+            $cacheId = 'book_publishers_' . md5(self::CACHEID_SALT);
             $publishers = $cache->load($cacheId);
         }
         
+        $publisher_model = $this->getPublisherModel();
+        
         if (! isset($publishers) || false === $publishers) {
-            $table = Doctrine_Core::getTable(self::PUBLISHER_MODEL);
-            $publishers = $table->findAll();
+            $publishers = $publisher_model->getAllPublisher();
             if (0 !== $publishers->count()) {
                 if ($getcache && null !== $cache) {
                     $cache->save($publishers, $cacheId);
                 }
             } else { /* this will create a default record if no publisher found */
-                $table->create(array('publisher_name' => 'Unknown'))->save();
-                $publishers = $table->findAll();
+                $publisher_model->insertPublisher(array('publisher_name' => 'Unknown'));
+                $publishers = $publisher_model->getAllPublisher();
             }
         }
+        
         return $publishers;
     }
     
@@ -405,9 +589,12 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
      */
     public function flushAllCache()
     {
-        $cache = $this->getCache();
-        $flushCache = $cache->clean();
-        return $flushCache;
+        try {
+            $flushCache = $this->getCache()->clean();
+            return $flushCache;
+        } catch (Exception $exc) {
+            return false;
+        }
     }
     
     /**
@@ -421,6 +608,7 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
         if (null === $this->_bookForm) {
             $this->_bookForm = new Book_Form_Book();
         }
+        
         return $this->_bookForm;
     }
     
@@ -434,6 +622,7 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
         if (null === $this->_authorForm) {
             $this->_authorForm = new Book_Form_Author();
         }
+        
         return $this->_authorForm;
     }
     
@@ -447,6 +636,7 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
         if (null === $this->_categoryForm) {
             $this->_categoryForm = new Book_Form_Category();
         }
+        
         return $this->_categoryForm;
     }
     
@@ -460,6 +650,7 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
         if (null === $this->_publisherForm) {
             $this->_publisherForm = new Book_Form_Publisher();
         }
+        
         return $this->_publisherForm;
     }
     
@@ -468,7 +659,6 @@ class Book_Service_Book extends Core_Service_ServiceAbstract
      */
     protected function _setAcl()
     {
-        $this->_acl->allow('admin', $this, 'flush-cache');
         $this->_acl->allow('admin', $this, 'manage');
     }
 }

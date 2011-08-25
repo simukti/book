@@ -93,6 +93,12 @@ class User_Model_Auth extends Minilib_User implements Zend_Auth_Adapter_Interfac
         return new Zend_Auth_Result($code, $this->_identity, array($message));
     }
     
+    /**
+     * Get single user by username and set idRole if user found.
+     * 
+     * @param string $username
+     * @return Doctrine_Record | false
+     */
     public function getUserByUsername($username)
     {
         $user = $this->getTable()->findOneByUname($username);
@@ -104,4 +110,11 @@ class User_Model_Auth extends Minilib_User implements Zend_Auth_Adapter_Interfac
         }
     }
     
+    /**
+     * @todo This will update name, email, password of current user.
+     * @param User_Model_Auth $user
+     * @param array $new_data 
+     */
+    public function updateUser(User_Model_Auth $user, array $new_data)
+    {}
 }

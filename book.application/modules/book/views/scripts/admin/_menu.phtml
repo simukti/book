@@ -4,23 +4,21 @@
         <a href="<?php echo $this->url(array(), 'book-admin'); ?>">Index</a>
     </li>
     <li>
-        <a href="<?php echo $this->url(array(), 'book-admin'); ?>">Latest Review</a>
+        <a href="<?php echo $this->url(array(), 'book-review-latest'); ?>">Latest Review</a>
     </li>
     <li>
         <a href="<?php echo $this->url(array(), 'book-insert'); ?>">Insert New Book</a>
     </li>
     <li>
-        <a href="<?php echo $this->url(array(), 'book-insert'); ?>">Create New Author</a>
+        <a href="<?php echo $this->url(array(), 'book-insert-author'); ?>">Authors</a>
     </li>
     <li>
-        <a href="<?php echo $this->url(array(), 'book-insert'); ?>">Create New Category</a>
+        <a href="<?php echo $this->url(array(), 'book-insert-category'); ?>">Categories</a>
     </li>
     <li>
-        <a href="<?php echo $this->url(array(), 'book-insert'); ?>">Create New Publisher</a>
+        <a href="<?php echo $this->url(array(), 'book-insert-publisher'); ?>">Publishers</a>
     </li>
-    <?php if ($this->getService('Book_Service_Book')->checkAcl('manage')) : ?>
     <li>
         <a href="<?php echo $this->url(array(), 'book-flushcache'); ?>">Flush All Cache</a>
     </li>
-    <?php endif; ?>
 </ul>

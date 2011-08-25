@@ -23,8 +23,10 @@ class Book_Model_Book extends Minilib_Books
     }
     
     /**
-     * Insert new book
+     * Only logged-in user able to exec this method, because it will take id_user
      * 
+     * @see Doctrine_Record::save()
+     * @see Book_Service_Book::_setAcl()
      * @param array $data
      * @return void
      */
@@ -45,8 +47,7 @@ class Book_Model_Book extends Minilib_Books
     }
     
     /**
-     * Update single book
-     * 
+     * @see Doctrine_Record::save()
      * @param Book_Model_Book $book
      * @param array $new_data
      * @return void
@@ -80,11 +81,49 @@ class Book_Model_Book extends Minilib_Books
         return $delete;
     }
     
-    public function getAllBooks()
-    {}
-    
-    protected function _getTitleSlug($title)
+    /**
+     * Get single book
+     * 
+     * @param int $id_book
+     * @return Doctrine_Record
+     */
+    public function getBook($id_book)
     {
-        
+        $book = $this->getTable()->findOneByIdBooks($id_book);
+        return $book;
+    }
+    
+    /**
+     * Get all books as a collection or a paginator object (Doctrine_Query)
+     * 
+     * @param boolean $get_paging
+     * @param int     $limit
+     * @return Doctrine_Query | Doctrine_Collection
+     */
+    public function getAllBooks($get_paging = false, $limit = 18)
+    {
+        $query = $this->getTable()->createQuery('b')
+                      ->orderBy('b.book_title');
+        if ($get_paging) {
+            return $query;
+        } else {
+            $collection = $query->limit($limit)->execute();
+            return $collection;
+        }
+    }
+    
+    /**
+     * Get latest books. Default is 12 latest books
+     * 
+     * @param int $limit
+     * @return Doctrine_Collection
+     */
+    public function getLatestBook($limit = 10)
+    {
+        $books = $this->getTable()->createQuery('b')
+                      ->orderBy('b.date_added DESC')
+                      ->limit($limit)
+                      ->execute();
+        return $books;
     }
 }

@@ -110,7 +110,7 @@ class User_Service_User extends Core_Service_ServiceAbstract
     /**
      * Get current user
      * 
-     * @return Zend_Acl_Role
+     * @return Zend_Acl_Role | Doctrine_Record
      */
     public function getCurrentUser()
     {
@@ -164,4 +164,11 @@ class User_Service_User extends Core_Service_ServiceAbstract
         }
         return false;
     }
+    
+    /**
+     * @see User_Model_Auth::updateUser()
+     * @param array $new_data 
+     */
+    public function updateUser(array $new_data)
+    {}
 }

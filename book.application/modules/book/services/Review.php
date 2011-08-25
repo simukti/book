@@ -33,11 +33,14 @@ class Book_Service_Review extends Core_Service_ServiceAbstract
     
     /**
      * Review form
-     *  
+     * 
      * @var Book_Form_Review
      */
     protected $_reviewForm;
     
+    /**
+     * @return Book_Model_Review
+     */
     public function getReviewModel()
     {
         if (null === $this->_reviewModel) {
@@ -51,13 +54,19 @@ class Book_Service_Review extends Core_Service_ServiceAbstract
      * 
      * @return Doctrine_Collection
      */
-    public function getLatestReview()
+    public function getLatestReview($limit = 20)
     {
-        $reviews = Doctrine_Core::getTable('Book_Model_Review')
-                    ->createQuery()->limit(20)->execute();
+        $reviews = $this->getReviewModel()->getLatestReviews($limit);
         return $reviews;
     }
     
+    /**
+     * Insert new review
+     * 
+     * @param insert $id_book
+     * @param array $data
+     * @return boolean insert status
+     */
     public function insert($id_book, array $data)
     {
         try {
@@ -68,8 +77,31 @@ class Book_Service_Review extends Core_Service_ServiceAbstract
         }
     }
     
+    /**
+     * Delete a review
+     * 
+     * @param int $id_review
+     * @return boolean Deletion status
+     */
     public function delete($id_review)
-    {}
+    {
+        $review = $this->getReview($id_review);
+        if ($review) {
+            $delete = $this->getReviewModel()->deleteReview($review);
+            return $delete;
+        }
+        return false;
+    }
+    
+    /**
+     * @see Book_Model_Review::getReview()
+     * @param int $id_review
+     * @return Doctrine_Record
+     */
+    public function getReview($id_review)
+    {
+        return $this->getReviewModel()->getReview($id_review);
+    }
     
     /**
      * Get Review Form in a single book display
