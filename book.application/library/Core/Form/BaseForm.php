@@ -33,7 +33,7 @@ class Core_Form_BaseForm extends Zend_Form
      */
     public function getRecaptcha()
     {
-        $recaptchaConfig = new Zend_Config_Ini(CONFIG_PATH . DS . 'misc.ini', 'simukti');
+        $recaptchaConfig = new Zend_Config_Ini(CONFIG_PATH . DS . 'misc.default.ini', 'simukti');
         $recaptcha_public   = $recaptchaConfig->recaptcha->public;
         $recaptcha_private  = $recaptchaConfig->recaptcha->private;
 
