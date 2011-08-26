@@ -187,7 +187,10 @@ class Core_Service_ServiceAbstract implements Zend_Acl_Resource_Interface
                     'automatic_serialization' => true
                 ),
                 array(
-                    'cache_dir'              => CACHE_PATH . DS . 'query' . DS,
+                    // use this if you are on cloud hosting
+                    'cache_dir'              => sys_get_temp_dir()
+                    // remove next line if you are on local server
+                    //'cache_dir'              => CACHE_PATH . DS . 'query' . DS,
                 )
             );
             $this->_cache = $cache;
